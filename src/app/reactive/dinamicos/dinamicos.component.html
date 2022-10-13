@@ -1,0 +1,50 @@
+<h2>Reactivos: <small>Dinámicos</small></h2>
+<hr>
+<form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="guardar()">
+    <!-- Nombre -->
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Nombre</label>
+        <div class="col-sm-9">
+            <input formControlName="nombre" class="form-control" placeholder="Nombre del usuario">
+            <span *ngIf="campoValido('nombre')" class="form-text text-danger">Campo obligatorio
+            </span>
+        </div>
+    </div>
+    <!-- Agregar favorito -->
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Agregar</label>
+        <div class="col-sm-9">
+            <div class="input-group">
+                <input [formControl]="nuevoFavorito" class="form-control" placeholder="Agregar favorito"
+                    (keyup.enter)="agregarFavorito()">
+                <button class="btn btn-primary" (click)="agregarFavorito()" type="button">Agregar</button>
+
+            </div>
+            <!-- <span *ngIf="campoValido('agregar')" class="form-text text-danger">Campo obligatorio
+            </span> -->
+        </div>
+    </div>
+    <!-- Lista de lenguajes favorito -->
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Favoritos</label>
+        <div class="col-sm-9" formArrayName="favoritos">
+            <div class="input-group mb-1" *ngFor="let favorito of favoritosArr.controls; let i = index">
+                <!-- Uso de interpolación para indexar en los campos -->
+                <input class="form-control" [formControlName]="i">
+                <button class="btn btn-danger" (click)="borrar(i)" type="button">Eliminar</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <button type="submit" class="btn btn-primary float-end">Guardar</button>
+        </div>
+    </div>
+</form>
+
+<h4>Validaciones:</h4>
+<span>Usuario</span>
+<pre>{{miFormulario.value | json}}</pre>
+<span>Agregar Lenguaje</span>
+<pre>{{nuevoFavorito.valid | json}}</pre>
+<pre>{{nuevoFavorito.value | json}}</pre>
